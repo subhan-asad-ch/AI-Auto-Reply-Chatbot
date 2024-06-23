@@ -1,19 +1,18 @@
 from openai import OpenAI
- 
-# pip install openai 
-# if you saved the key under a different environment variable name, you can do something like:
-client = OpenAI(
-  api_key="<Your Key Here>",
-)
 
-command = '''
-'''
-completion = client.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "You are a person named harry who speaks hindi as well as english. He is from India and is a coder. You analyze chat history and respond like Harry"},
-    {"role": "user", "content": command}
-  ]
-)
+client = OpenAI(api_key="<Your Key Here>")
 
-print(completion.choices[0].message.content)
+def is_last_message_from_sender(chat_log, sender_name="Rohan Das"):
+    messages = chat_log.strip().split("/2024] ")[-1]
+    return sender_name in messages
+
+def get_chat_response(chat_history):
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a person named Subhan who speaks Urdu as well as English. You are from Pakistan and you are a coder. You analyze chat history and roast people in a funny way. Output should be the next chat response (text message only)"},
+            {"role": "system", "content": "Do not start like this [21:02, 12/6/2024] Ahmad: "},
+            {"role": "user", "content": chat_history}
+        ]
+    )
+    return completion.choices[0].message.content
